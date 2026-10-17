@@ -1,0 +1,25 @@
+
+# Python sanal ortami
+.venv/
+
+# Python gecici dosyalari
+__pycache__/
+*.pyc
+
+# Gizli ortam degiskenleri
+.env
+.env.*
+
+# Editor ve sistem dosyalari
+.vscode/
+.DS_Store
+
+# Test ve analiz dosyalari
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Yerel veritabani
+db.sqlite3
+
+!.env.example
