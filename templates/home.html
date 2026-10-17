@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}Rezervasyon Yönetimi | BookingAPI{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <h1>Rezervasyon Yönetimi</h1>
+        <p>Kaynaklarını ve rezervasyonlarını tek yerden yönet.</p>
+    </div>
+    <button class="button-primary" type="button" disabled>
+        ＋ Yeni rezervasyon
+    </button>
+</section>
+
+<p class="section-label">
+    Demo görünümü · Veriler örnektir, API bağlantısı henüz yapılmadı.
+</p>
+
+<section class="stats-grid" aria-label="Örnek rezervasyon özeti">
+    <article class="stat-card">
+        <span>Toplam rezervasyon</span>
+        <strong>3</strong>
+    </article>
+    <article class="stat-card">
+        <span>Aktif rezervasyon</span>
+        <strong>2</strong>
+    </article>
+    <article class="stat-card">
+        <span>İptal edilen</span>
+        <strong>1</strong>
+    </article>
+</section>
+
+<section class="booking-toolbar" aria-label="Rezervasyon filtreleri">
+    <label class="search-field">
+        Rezervasyon ara
+        <input type="search" placeholder="Kaynak veya başlık · Yakında" disabled>
+    </label>
+    <label>
+        Durum
+        <select disabled>
+            <option>Tümü</option>
+            <option>Aktif</option>
+            <option>İptal</option>
+        </select>
+    </label>
+    <button class="filter-button" type="button" disabled>Filtrele</button>
+</section>
+
+<section class="booking-grid" aria-label="Örnek rezervasyonlar">
+    <article class="booking-card">
+        <div class="card-top">
+            <span class="calendar-icon green" aria-hidden="true">▦</span>
+            <span class="status green">Aktif</span>
+        </div>
+        <h2>Toplantı Odası A</h2>
+        <p class="booking-title">Proje toplantısı</p>
+        <div class="booking-details">
+            <p><span aria-hidden="true">▦</span>
+                <time datetime="2026-10-20">20 Ekim 2026</time>
+            </p>
+            <p><span aria-hidden="true">◷</span>09:00 – 10:00</p>
+        </div>
+        <div class="card-actions">
+            <button class="action detail" type="button" disabled>Detay</button>
+            <button class="action edit" type="button" disabled>Düzenle</button>
+            <button class="action cancel" type="button" disabled>İptal et</button>
+        </div>
+        <details class="json-preview">
+            <summary>JSON Gör</summary>
+            <p>Örnek yanıt taslağı · Gerçek API yanıtı değildir.</p>
+            <pre><code>{
+  "id": 1,
+  "resource": 1,
+  "title": "Proje toplantısı",
+  "starts_at": "2026-10-20T09:00:00+03:00",
+  "ends_at": "2026-10-20T10:00:00+03:00",
+  "status": "active"
+}</code></pre>
+        </details>
+    </article>
+
+    <article class="booking-card">
+        <div class="card-top">
+            <span class="calendar-icon blue" aria-hidden="true">▦</span>
+            <span class="status blue">Aktif</span>
+        </div>
+        <h2>Görüşme Odası</h2>
+        <p class="booking-title">Müşteri görüşmesi</p>
+        <div class="booking-details">
+            <p><span aria-hidden="true">▦</span>
+                <time datetime="2026-10-20">20 Ekim 2026</time>
+            </p>
+            <p><span aria-hidden="true">◷</span>11:00 – 12:00</p>
+        </div>
+        <div class="card-actions">
+            <button class="action detail" type="button" disabled>Detay</button>
+            <button class="action edit" type="button" disabled>Düzenle</button>
+            <button class="action cancel" type="button" disabled>İptal et</button>
+        </div>
+        <details class="json-preview">
+            <summary>JSON Gör</summary>
+            <p>Örnek yanıt taslağı · Gerçek API yanıtı değildir.</p>
+            <pre><code>{
+  "id": 2,
+  "resource": 2,
+  "title": "Müşteri görüşmesi",
+  "starts_at": "2026-10-20T11:00:00+03:00",
+  "ends_at": "2026-10-20T12:00:00+03:00",
+  "status": "active"
+}</code></pre>
+        </details>
+    </article>
+
+    <article class="booking-card">
+        <div class="card-top">
+            <span class="calendar-icon red" aria-hidden="true">▦</span>
+            <span class="status red">İptal edildi</span>
+        </div>
+        <h2>Toplantı Odası B</h2>
+        <p class="booking-title">Ekip değerlendirmesi</p>
+        <div class="booking-details">
+            <p><span aria-hidden="true">▦</span>
+                <time datetime="2026-10-20">20 Ekim 2026</time>
+            </p>
+            <p><span aria-hidden="true">◷</span>14:00 – 15:00</p>
+        </div>
+        <div class="card-actions">
+            <button class="action detail" type="button" disabled>Detay</button>
+            <button class="action edit" type="button" disabled>Düzenle</button>
+            <button class="action cancel" type="button" disabled>İptal et</button>
+        </div>
+        <details class="json-preview">
+            <summary>JSON Gör</summary>
+            <p>Örnek yanıt taslağı · Gerçek API yanıtı değildir.</p>
+            <pre><code>{
+  "id": 3,
+  "resource": 3,
+  "title": "Ekip değerlendirmesi",
+  "starts_at": "2026-10-20T14:00:00+03:00",
+  "ends_at": "2026-10-20T15:00:00+03:00",
+  "status": "cancelled"
+}</code></pre>
+        </details>
+    </article>
+</section>
+
+<div class="technology-note">
+    <p>Django REST Framework · PostgreSQL · JWT</p>
+    <small>Swagger/OpenAPI ilgili bölümde etkinleştirilecek.</small>
+</div>
+{% endblock %}

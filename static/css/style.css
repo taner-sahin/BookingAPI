@@ -1,0 +1,528 @@
+:root {
+    --blue: #2469ee;
+    --text: #101828;
+    --muted: #667085;
+    --border: #e1e6ef;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f7f8fb;
+    color: var(--text);
+    font: 16px/1.6 "Segoe UI", Arial, sans-serif;
+}
+
+.container {
+    width: min(1200px, 90%);
+    margin: auto;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+}
+
+a:focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 5px;
+}
+
+.site-header,
+.site-footer {
+    background: white;
+}
+
+.site-header {
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar,
+.footer-content,
+.page-heading,
+.card-top,
+.card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.navbar {
+    min-height: 82px;
+    flex-wrap: wrap;
+    padding: 16px 0;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 25px;
+    font-weight: 750;
+    letter-spacing: -0.7px;
+}
+
+.brand-icon {
+    color: var(--blue);
+    font-size: 36px;
+    line-height: 1;
+}
+
+.api-badge {
+    padding: 5px 12px;
+    border-radius: 9px;
+    background: #eaf1ff;
+    color: var(--blue);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 28px;
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nav-links .active {
+    color: var(--blue);
+}
+
+.nav-disabled {
+    color: var(--muted);
+}
+
+.page-heading {
+    margin: 52px 0 34px;
+    flex-wrap: wrap;
+}
+
+h1,
+h2,
+p {
+    margin: 0;
+}
+
+h1 {
+    font-size: clamp(28px, 3vw, 38px);
+    line-height: 1.3;
+    letter-spacing: -1px;
+}
+
+.page-heading p {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 18px;
+}
+
+.button-primary {
+    padding: 13px 22px;
+    border: 0;
+    border-radius: 7px;
+    background: var(--blue);
+    color: white;
+    font-weight: 600;
+}
+
+.button-primary span {
+    margin-right: 8px;
+    font-size: 22px;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.section-label {
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.booking-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.booking-card {
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: white;
+}
+
+.card-top {
+    margin-bottom: 20px;
+}
+
+.calendar-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    font-size: 30px;
+    line-height: 1;
+}
+
+.status {
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.green {
+    background: #e6f6ec;
+    color: #13843c;
+}
+
+.blue {
+    background: #eaf1ff;
+    color: var(--blue);
+}
+
+.red {
+    background: #ffeded;
+    color: #d92d35;
+}
+
+.booking-card h2 {
+    font-size: 21px;
+    line-height: 1.4;
+    letter-spacing: -0.5px;
+}
+
+.booking-title {
+    margin-top: 4px;
+    color: #536079;
+}
+
+.booking-details {
+    display: grid;
+    gap: 9px;
+    margin: 24px 0 20px;
+    color: #536079;
+    font-size: 15px;
+}
+
+.booking-details p {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.booking-details span {
+    width: 20px;
+    color: #738099;
+    font-size: 21px;
+    line-height: 1;
+    text-align: center;
+}
+
+.card-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 17px;
+    border-top: 1px solid var(--border);
+}
+
+.action {
+    padding: 4px 0;
+    border: 0;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.detail {
+    color: var(--blue);
+}
+
+.edit {
+    color: #65718a;
+}
+
+.cancel {
+    color: #d92d35;
+}
+
+.technology-note {
+    margin-top: 30px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    color: #59677f;
+    text-align: center;
+}
+
+.technology-note small {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.site-footer {
+    border-top: 1px solid var(--border);
+}
+
+.footer-content {
+    min-height: 72px;
+    flex-wrap: wrap;
+    padding: 16px 0;
+}
+
+.site-footer .brand {
+    font-size: 18px;
+}
+
+.site-footer .brand-icon {
+    font-size: 28px;
+}
+
+.site-footer a:last-child {
+    font-weight: 600;
+}
+
+@media (max-width: 960px) {
+    .booking-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nav-links {
+        gap: 16px;
+    }
+}
+
+@media (max-width: 640px) {
+    .navbar {
+        gap: 12px;
+    }
+
+    .nav-links {
+        width: 100%;
+        margin-left: 0;
+        justify-content: space-between;
+        font-size: 13px;
+    }
+
+    .brand {
+        font-size: 22px;
+    }
+
+    .api-badge {
+        font-size: 11px;
+    }
+
+    .page-heading {
+        margin: 30px 0 24px;
+    }
+
+    .page-heading p {
+        font-size: 16px;
+    }
+
+    .booking-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 18px 0 24px;
+}
+
+.stat-card {
+    padding: 18px 22px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: white;
+}
+
+.stat-card span {
+    display: block;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.stat-card strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 28px;
+}
+
+.booking-toolbar {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.booking-toolbar label {
+    display: grid;
+    gap: 6px;
+    color: #475467;
+    font-size: 14px;
+}
+
+.search-field {
+    flex: 1 1 260px;
+}
+
+.booking-toolbar input,
+.booking-toolbar select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #cdd5e2;
+    border-radius: 7px;
+    background: white;
+    color: var(--text);
+    font: inherit;
+}
+
+.booking-toolbar input::placeholder {
+    color: var(--muted);
+    opacity: 1;
+}
+
+.booking-toolbar select {
+    min-width: 150px;
+}
+
+.filter-button {
+    min-height: 44px;
+    padding: 10px 20px;
+    border: 1px solid #cdd5e2;
+    border-radius: 7px;
+    background: white;
+    color: #344054;
+    font-weight: 600;
+}
+
+.card-actions .action {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #f8fafc;
+    text-align: center;
+}
+
+.card-actions .cancel {
+    border-color: #f5d3d5;
+    background: #fff5f5;
+}
+
+.action:not(:disabled):hover,
+.filter-button:not(:disabled):hover {
+    background: #eaf1ff;
+}
+
+.cancel:not(:disabled):hover {
+    background: #ffe4e4;
+}
+
+.booking-grid {
+    align-items: start;
+}
+
+.json-preview {
+    margin-top: 16px;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+}
+
+.json-preview summary {
+    width: fit-content;
+    padding: 4px 0;
+    color: var(--blue);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.json-preview summary:focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 4px;
+}
+
+.json-preview p {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.json-preview pre {
+    margin: 10px 0 0;
+    padding: 14px;
+    border-radius: 7px;
+    background: #142039;
+    color: #e2ecff;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font: 12px/1.8 Consolas, monospace;
+}
+
+@media (max-width: 640px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .booking-toolbar label,
+    .filter-button {
+        width: 100%;
+    }
+
+    .search-field {
+        flex-basis: 100%;
+    }
+}
+
+/* Toplam rezervasyon */
+.stat-card:nth-child(1) {
+    background: #edf0f4;
+    border-color: #cbd2dc;
+}
+
+.stat-card:nth-child(1) span,
+.stat-card:nth-child(1) strong {
+    color: #344054;
+}
+
+/* Aktif rezervasyon */
+.stat-card:nth-child(2) {
+    background: #e8f0ff;
+    border-color: #b8cfff;
+}
+
+.stat-card:nth-child(2) span,
+.stat-card:nth-child(2) strong {
+    color: #1d55c4;
+}
+
+/* İptal edilen */
+.stat-card:nth-child(3) {
+    background: #ffebed;
+    border-color: #f5bfc5;
+}
+
+.stat-card:nth-child(3) span,
+.stat-card:nth-child(3) strong {
+    color: #b42335;
+}

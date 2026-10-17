@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}BookingAPI{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="container navbar" aria-label="Ana menü">
+            <a class="brand" href="{% url 'core:home' %}">
+                <span class="brand-icon" aria-hidden="true">▦</span>
+                BookingAPI
+            </a>
+
+            <span class="api-badge">Django REST API</span>
+
+            <div class="nav-links">
+                <a class="active" href="{% url 'core:home' %}">
+                    Rezervasyonlar
+                </a>
+                <span class="nav-disabled">API Docs · Yakında</span>
+                <a href="https://github.com/taner-sahin/BookingAPI"
+                   target="_blank" rel="noopener noreferrer">
+                    GitHub
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <a class="brand" href="{% url 'core:home' %}">
+                <span class="brand-icon" aria-hidden="true">▦</span>
+                BookingAPI
+            </a>
+
+            <a href="https://github.com/taner-sahin/BookingAPI"
+               target="_blank" rel="noopener noreferrer">
+                GitHub ↗
+            </a>
+        </div>
+    </footer>
+</body>
+</html>
