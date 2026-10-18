@@ -1,3 +1,12 @@
-from django.shortcuts import render
+from typing import ClassVar
 
-# Create your views here.
+from rest_framework import mixins, viewsets
+from rest_framework.permissions import AllowAny
+
+from .serializers import RegisterSerializer
+
+
+class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    serializer_class = RegisterSerializer
+    permission_classes = (AllowAny,)
+    http_method_names: ClassVar[list[str]] = ["post", "options"]
