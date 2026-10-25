@@ -117,3 +117,40 @@ class BookingAPITests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Booking.objects.count(), 1)
+
+    def test_create_booking_with_end_time_before_start_time(self):
+        invalid_start_time = self.start_time + timedelta(days=1)
+        invalid_end_time = invalid_start_time - timedelta(hours=1)
+
+        response = self.client.post(
+            "/api/bookings/",
+            {
+                "user": self.user.id,
+                "resource": self.resource.id,
+                "start_time": invalid_start_time.isoformat(),
+                "end_time": invalid_end_time.isoformat(),
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("end_time", response.json())
+        self.assertEqual(Booking.objects.count(), 1)
+
+    def test_create_booking_with_overlapping_time(self):
+        overlapping_start_time = self.start_time + timedelta(minutes=30)
+        overlapping_end_time = self.end_time + timedelta(minutes=30)
+
+        response = self.client.post(
+            "/api/bookings/",
+            {
+                "user": self.user.id,
+                "resource": self.resource.id,
+                "start_time": overlapping_start_time.isoformat(),
+                "end_time": overlapping_end_time.isoformat(),
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Booking.objects.count(), 1)
