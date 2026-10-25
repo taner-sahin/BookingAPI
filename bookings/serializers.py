@@ -31,6 +31,15 @@ class BookingSerializer(serializers.ModelSerializer):
             getattr(self.instance, "resource", None),
         )
 
+        reservation_details_changed = self.instance is None or any(
+            field in attrs for field in ("resource", "start_time", "end_time")
+        )
+
+        if resource and reservation_details_changed and not resource.is_active:
+            raise serializers.ValidationError(
+                {"resource": "Pasif bir kaynak için rezervasyon yapılamaz."}
+            )
+
         if start_time and end_time and end_time <= start_time:
             raise serializers.ValidationError(
                 {"end_time": "Bitiş zamanı başlangıç zamanından sonra olmalıdır."}

@@ -154,3 +154,26 @@ class BookingAPITests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Booking.objects.count(), 1)
+
+    def test_create_booking_with_inactive_resource(self):
+        inactive_resource = Resource.objects.create(
+            name="Pasif Toplantı Odası",
+            capacity=5,
+            is_active=False,
+        )
+        new_start_time = self.start_time + timedelta(days=1)
+        new_end_time = new_start_time + timedelta(hours=1)
+
+        response = self.client.post(
+            "/api/bookings/",
+            {
+                "user": self.user.id,
+                "resource": inactive_resource.id,
+                "start_time": new_start_time.isoformat(),
+                "end_time": new_end_time.isoformat(),
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Booking.objects.count(), 1)
