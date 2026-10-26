@@ -15,7 +15,8 @@ class BookingSerializer(serializers.ModelSerializer):
             "status",
             "created_at",
         )
-        read_only_fields = ("id", "created_at")
+
+        read_only_fields = ("id", "created_at", "user")
 
     def validate(self, attrs):
         start_time = attrs.get(

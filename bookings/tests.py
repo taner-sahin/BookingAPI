@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from rest_framework import status
-from rest_framework.test import APITestCase
+from rest_framework.test import APIClient, APITestCase
 
 from resources.models import Resource
 
@@ -33,11 +33,55 @@ class BookingAPITests(APITestCase):
             end_time=self.end_time,
         )
 
+        self.client.force_authenticate(user=self.user)
+
+    def test_obtain_jwt_token_pair(self):
+        client = APIClient()
+        response = client.post(
+            "/api/token/",
+            {
+                "username": "booking_tester",
+                "password": "TestPass123!",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)
+
+    def test_unauthenticated_user_cannot_list_bookings(self):
+        self.client.force_authenticate(user=None)
+
+        response = self.client.get("/api/bookings/")
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
     def test_list_bookings(self):
         response = self.client.get("/api/bookings/")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
+
+    def test_list_only_returns_current_users_bookings(self):
+        user_model = get_user_model()
+        other_user = user_model.objects.create_user(
+            username="another_tester",
+            email="another_tester@example.com",
+            password="TestPass456!",
+        )
+        Booking.objects.create(
+            user=other_user,
+            resource=self.resource,
+            start_time=self.start_time + timedelta(days=5),
+            end_time=self.end_time + timedelta(days=5),
+        )
+
+        response = self.client.get("/api/bookings/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["id"], self.booking.id)
 
     def test_retrieve_booking(self):
         response = self.client.get(f"/api/bookings/{self.booking.id}/")
@@ -52,7 +96,6 @@ class BookingAPITests(APITestCase):
         response = self.client.post(
             "/api/bookings/",
             {
-                "user": self.user.id,
                 "resource": self.resource.id,
                 "start_time": new_start_time.isoformat(),
                 "end_time": new_end_time.isoformat(),
@@ -63,6 +106,27 @@ class BookingAPITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Booking.objects.count(), 2)
         self.assertEqual(response.data["status"], Booking.Status.PENDING)
+        self.assertEqual(response.data["user"], self.user.id)
+
+    def test_user_cannot_change_booking_owner(self):
+        user_model = get_user_model()
+        other_user = user_model.objects.create_user(
+            username="owner_change_tester",
+            email="owner_change_tester@example.com",
+            password="TestPass789!",
+        )
+
+        response = self.client.patch(
+            f"/api/bookings/{self.booking.id}/",
+            {"user": other_user.id},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["user"], self.user.id)
+
+        self.booking.refresh_from_db()
+        self.assertEqual(self.booking.user_id, self.user.id)
 
     def test_patch_booking_status(self):
         response = self.client.patch(
@@ -83,7 +147,6 @@ class BookingAPITests(APITestCase):
         response = self.client.put(
             f"/api/bookings/{self.booking.id}/",
             {
-                "user": self.user.id,
                 "resource": self.resource.id,
                 "start_time": new_start_time.isoformat(),
                 "end_time": new_end_time.isoformat(),
@@ -93,6 +156,7 @@ class BookingAPITests(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["user"], self.user.id)
 
     def test_delete_booking(self):
         response = self.client.delete(f"/api/bookings/{self.booking.id}/")
@@ -107,7 +171,6 @@ class BookingAPITests(APITestCase):
         response = self.client.post(
             "/api/bookings/",
             {
-                "user": self.user.id,
                 "resource": 99999,
                 "start_time": new_start_time.isoformat(),
                 "end_time": new_end_time.isoformat(),
@@ -125,7 +188,6 @@ class BookingAPITests(APITestCase):
         response = self.client.post(
             "/api/bookings/",
             {
-                "user": self.user.id,
                 "resource": self.resource.id,
                 "start_time": invalid_start_time.isoformat(),
                 "end_time": invalid_end_time.isoformat(),
@@ -134,7 +196,7 @@ class BookingAPITests(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("end_time", response.json())
+        self.assertIn("end_time", response.data)
         self.assertEqual(Booking.objects.count(), 1)
 
     def test_create_booking_with_overlapping_time(self):
@@ -144,7 +206,6 @@ class BookingAPITests(APITestCase):
         response = self.client.post(
             "/api/bookings/",
             {
-                "user": self.user.id,
                 "resource": self.resource.id,
                 "start_time": overlapping_start_time.isoformat(),
                 "end_time": overlapping_end_time.isoformat(),
@@ -167,7 +228,6 @@ class BookingAPITests(APITestCase):
         response = self.client.post(
             "/api/bookings/",
             {
-                "user": self.user.id,
                 "resource": inactive_resource.id,
                 "start_time": new_start_time.isoformat(),
                 "end_time": new_end_time.isoformat(),
